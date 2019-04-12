@@ -28,7 +28,9 @@ import {
   getMoreAnnouncements,
   getEvents,
   api,
-  clearEventCreate
+  clearEventCreate,
+  addBookmark,
+  removeBookmark
 } from '../../redux/actions/index';
 import CardComponent from '../../components/CardComponent';
 import {
@@ -51,8 +53,8 @@ class AnnouncementScreen extends Component {
     this.checkPermission();
     this.createNotificationListeners();
     setTimeout(() => {
-      this.props.getAnnouncements(this.props.bookmark, this.state.jurusan);
-      this.props.getEvents(this.props.bookmark);
+      this.props.getAnnouncements(this.state.jurusan);
+      this.props.getEvents();
     }, 10);
   }
 
@@ -255,7 +257,7 @@ class AnnouncementScreen extends Component {
           </Text>
         </View>
         <View style={{ alignSelf: 'flex-end' }}>
-          <TouchableNativeFeedback onPress={() => !isBookmark ? this.saveBookmark(item.item) : this.removeBookmark(item.item)}>
+          <TouchableNativeFeedback onPress={() => !isBookmark ? this.props.addBookmark(item.item, 'AnnBook', this.props.announcements) : this.props.removeBookmark(item.item, 'AnnBook', this.props.announcements)}>
             <Icon
               name={isBookmark ? 'bookmark' : 'bookmark-o'}
               color={primaryColor}
@@ -270,30 +272,6 @@ class AnnouncementScreen extends Component {
     );
   }
 
-  saveBookmark = async item => {
-    let annBook = await AsyncStorage.getItem('AnnBook');
-    if(annBook){
-      annBook = JSON.parse(annBook);
-      annBook.bookmark.push(item);
-      return AsyncStorage.setItem('AnnBook', JSON.stringify(annBook));
-    }
-    annBook = {
-      bookmark: [item]
-    };
-    AsyncStorage.setItem('AnnBook', JSON.stringify(annBook));
-  }
-
-  removeBookmark = async item => {
-    let annBook = await AsyncStorage.getItem('AnnBook');
-    let newAnnBook = JSON.parse(annBook).bookmark.filter(ele => {
-      return ele.id != item.id
-    });
-    let bookmark = {
-      bookmark: newAnnBook
-    };
-    await AsyncStorage.setItem('AnnBook', JSON.stringify(bookmark));
-  }
-
   renderCondition() {
     if (this.props.loading) {
       return (
@@ -305,7 +283,7 @@ class AnnouncementScreen extends Component {
       return (
         <View style={styles.renderCondition}>
           <Text>{this.props.message}</Text>
-          <TouchableWithoutFeedback onPress={() => { this.props.getAnnouncements(this.props.bookmark, ''); }}>
+          <TouchableWithoutFeedback onPress={() => { this.props.getAnnouncements(''); }}>
             <Icon
               name='refresh'
               color={primaryColor}
@@ -330,7 +308,7 @@ class AnnouncementScreen extends Component {
         refreshControl={
           <RefreshControl
             onRefresh={async () => {
-              this.props.getAnnouncements(this.props.bookmark, this.state.jurusan); 
+              this.props.getAnnouncements(this.state.jurusan); 
               await this.setState({ page: 1 });
             }}
             colors={[accentColor]}
@@ -342,7 +320,7 @@ class AnnouncementScreen extends Component {
               selectedValue={this.state.jurusan}
               onValueChange={(itemValue) => {
                 this.setState({ jurusan: itemValue, page: 1 });
-                this.props.getAnnouncements(this.props.bookmark, itemValue);
+                this.props.getAnnouncements(itemValue);
               }}
             >
               <Picker.Item label={i18n.t('allMajor')} value='' />
@@ -380,12 +358,13 @@ const mapStateToProp = state => ({
   announcements: state.announcements.announcements,
   failed: state.announcements.failed,
   loading: state.announcements.loading,
-  message: state.announcements.message,
-  bookmark: state.bookmark
+  message: state.announcements.message
 });
 
 export default connect(mapStateToProp, {
   getAnnouncements,
   getMoreAnnouncements,
-  getEvents
+  getEvents,
+  addBookmark,
+  removeBookmark
 })(AnnouncementScreen);

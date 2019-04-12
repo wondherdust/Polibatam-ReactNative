@@ -54,8 +54,9 @@ import {
   ANNOUNCEMENT_BOOKMARK,
   EVENT_BOOKMARK
 } from '../../constants/string';
-import { localize } from '../../../App';
-import { red } from 'ansi-colors';
+import {
+  localize
+} from '../../../App';
 
 const FETCH_TIMEOUT = 30000;
 // export const api = 'http://192.168.43.197:3000/api';
@@ -153,16 +154,16 @@ export const loginAction = ({
       loginUnsuccess(dispatch);
     }, FETCH_TIMEOUT);
     fetch(`${api}/user/login?lng=${localize.languageCode}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username,
-        password
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
       })
-    })
       .then(result => {
         clearTimeout(timeout);
         const response = result._bodyText;
@@ -226,8 +227,8 @@ const loginUnsuccess = async dispatch => {
   });
 };
 
-export const getAnnouncements = (bookmark, jurusan) => async dispatch => {
-  let AnnBookmark = bookmark.announcementbookmark;
+export const getAnnouncements = (jurusan) => async dispatch => {
+  let AnnBookmark = await AsyncStorage.getItem('AnnBook');
   dispatch({
     type: LOADING_ANNOUNCEMENTS
   });
@@ -238,21 +239,19 @@ export const getAnnouncements = (bookmark, jurusan) => async dispatch => {
     });
   }, FETCH_TIMEOUT);
   fetch(`${api}/announcement?jurusan=${jurusan}&page=1&lng=${localize.languageCode}`, {
-    method: 'GET'
-  })
+      method: 'GET'
+    })
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
       const res = JSON.parse(response).map(res => {
         if (AnnBookmark) {
           let isBookmark;
-          let e = AnnBookmark.bookmark.find(el => {
+          let e = JSON.parse(AnnBookmark).bookmark.find(el => {
             return el.id === res.id;
           });
           if (e) {
             isBookmark = true;
-          } else {
-            isBookmark = false;
           }
           return {
             ...res,
@@ -292,8 +291,8 @@ export const getMoreAnnouncements = (jurusan, page) => dispatch => {
     });
   }, FETCH_TIMEOUT);
   fetch(`${api}/announcement?jurusan=${jurusan}&page=${page}&lng=${localize.languageCode}`, {
-    method: 'GET'
-  })
+      method: 'GET'
+    })
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
@@ -330,8 +329,8 @@ export const getAnnouncement = id => dispatch => {
     });
   }, FETCH_TIMEOUT);
   fetch(`${api}/announcement/${id}?lng=${localize.languageCode}`, {
-    method: 'GET'
-  })
+      method: 'GET'
+    })
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
@@ -359,8 +358,8 @@ export const clearAnnouncement = () => ({
   type: CLEAR_ANNOUNCEMENT
 });
 
-export const getEvents = bookmark => async dispatch => {
-  let EveBookmark = bookmark.eventbookmark;
+export const getEvents = () => async dispatch => {
+  let EveBookmark = await AsyncStorage.getItem('EveBook');
   dispatch({
     type: LOADING_EVENTS
   });
@@ -371,21 +370,19 @@ export const getEvents = bookmark => async dispatch => {
     });
   }, FETCH_TIMEOUT);
   fetch(`${api}/event?page=1&lng=${localize.languageCode}`, {
-    method: 'GET'
-  })
+      method: 'GET'
+    })
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
       const res = JSON.parse(response).map(res => {
         if (EveBookmark) {
           let isBookmark;
-          let e = EveBookmark.bookmark.find(el => {
+          let e = JSON.parse(EveBookmark).bookmark.find(el => {
             return el.id === res.id;
           });
           if (e) {
             isBookmark = true;
-          } else {
-            isBookmark = false;
           }
           return {
             ...res,
@@ -418,8 +415,8 @@ export const getMoreEvents = page => dispatch => {
     });
   }, FETCH_TIMEOUT);
   fetch(`${api}/event?page=${page}&lng=${localize.languageCode}`, {
-    method: 'GET'
-  })
+      method: 'GET'
+    })
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
@@ -449,8 +446,8 @@ export const getEvent = id => dispatch => {
     });
   }, FETCH_TIMEOUT);
   fetch(`${api}/event/${id}?lng=${localize.languageCode}`, {
-    method: 'GET'
-  })
+      method: 'GET'
+    })
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
@@ -509,19 +506,19 @@ export const createAnnouncementAction = ({
     }, FETCH_TIMEOUT);
     const token = await AsyncStorage.getItem('Token');
     fetch(`${api}/announcement?lng=${localize.languageCode}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        // eslint-disable-next-line quotes
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        jurusan
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          // eslint-disable-next-line quotes
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          jurusan
+        })
       })
-    })
       .then(() => {
         clearTimeout(timeout);
         createAnnouncementSuccess(dispatch, nav);
@@ -582,13 +579,13 @@ export const createEventAction = ({
       name: posterUrl.fileName
     });
     fetch(`${api}/event?lng=${localize.languageCode}`, {
-      method: 'POST',
-      headers: {
-        // eslint-disable-next-line quotes
-        Authorization: `Bearer ${token}`
-      },
-      body: formData
-    })
+        method: 'POST',
+        headers: {
+          // eslint-disable-next-line quotes
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      })
       .then(() => {
         clearTimeout(timeout);
         createEventSuccess(dispatch, nav);
@@ -669,5 +666,85 @@ export const getEventBookmark = () => async dispatch => {
         payload: JSON.parse(res)
       })
     }
+  });
+}
+
+export const addBookmark = (item, bookmarkType, listData) => async dispatch => {
+  let bookmark = await AsyncStorage.getItem(bookmarkType);
+  if (bookmark) {
+    bookmark = JSON.parse(bookmark);
+    bookmark.bookmark.push(item);
+    return AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
+  }
+  bookmark = {
+    bookmark: [item]
+  };
+  await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
+  const res = listData.map(res => {
+    if (bookmark) {
+      let isBookmark;
+      let e = bookmark.bookmark.find(el => {
+        return el.id === res.id;
+      });
+      if (e) {
+        isBookmark = true;
+      }
+      return {
+        ...res,
+        isBookmark
+      }
+    }
+    return {
+      ...res
+    }
+  });
+  if (bookmarkType === 'AnnBook') {
+    return dispatch({
+      type: GET_ANNOUNCEMENTS,
+      payload: res
+    });
+  }
+  return dispatch({
+    type: GET_EVENTS,
+    payload: res
+  });
+}
+
+export const removeBookmark = (item, bookmarkType, listData) => async dispatch => {
+  let initBookmark = await AsyncStorage.getItem(bookmarkType);
+  let newBookmark = JSON.parse(initBookmark).bookmark.filter(ele => {
+    return ele.id != item.id
+  });
+  let bookmark = {
+    bookmark: newBookmark
+  };
+  await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
+  const res = listData.map(res => {
+    if (bookmark) {
+      let isBookmark;
+      let e = bookmark.bookmark.find(el => {
+        return el.id === res.id;
+      });
+      if (e) {
+        isBookmark = true;
+      }
+      return {
+        ...res,
+        isBookmark
+      }
+    }
+    return {
+      ...res
+    }
+  });
+  if (bookmarkType === 'AnnBook') {
+    return dispatch({
+      type: GET_ANNOUNCEMENTS,
+      payload: res
+    });
+  }
+  return dispatch({
+    type: GET_EVENTS,
+    payload: res
   });
 }

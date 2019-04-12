@@ -13,17 +13,13 @@ import {
   api,
   saveToken,
   showFab,
-  getUserData,
-  getAnnouncementBookmark,
-  getEventBookmark
+  getUserData
 } from '../../redux/actions';
 
 class AuthLoadingScreen extends Component {
   constructor(props) {
     super(props);
     this.bootstrapAsync();
-    this.props.getAnnouncementBookmark();
-    this.props.getEventBookmark();
   }
 
   bootstrapAsync = async () => {
@@ -74,7 +70,5 @@ class AuthLoadingScreen extends Component {
 
 export default connect(null, {
   showFab,
-  getUserData,
-  getAnnouncementBookmark,
-  getEventBookmark
+  getUserData
 })(AuthLoadingScreen);

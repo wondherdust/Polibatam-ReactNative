@@ -19,7 +19,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   getEvents,
-  getMoreEvents
+  getMoreEvents,
+  addBookmark,
+  removeBookmark
 } from '../../redux/actions/index';
 import CardComponent from '../../components/CardComponent';
 import {
@@ -81,7 +83,7 @@ class EventScreen extends Component {
             </Text>
           </View>
           <View style={{ alignSelf: 'flex-end' }}>
-            <TouchableNativeFeedback onPress={() => !isBookmark ? this.saveBookmark(item.item) : this.removeBookmark(item.item)}>
+          <TouchableNativeFeedback onPress={() => !isBookmark ? this.props.addBookmark(item.item, 'EveBook', this.props.events) : this.props.removeBookmark(item.item, 'EveBook', this.props.events)}>
               <Icon
                 name={isBookmark ? 'bookmark' : 'bookmark-o'}
                 color={primaryColor}
@@ -95,30 +97,6 @@ class EventScreen extends Component {
 
       </CardComponent>
     );
-  }
-
-  saveBookmark = async item => {
-    let eveBook = await AsyncStorage.getItem('EveBook');
-    if(eveBook){
-      eveBook = JSON.parse(eveBook);
-      eveBook.bookmark.push(item);
-      return AsyncStorage.setItem('EveBook', JSON.stringify(eveBook));
-    }
-    eveBook = {
-      bookmark: [item]
-    };
-    AsyncStorage.setItem('EveBook', JSON.stringify(eveBook));
-  }
-
-  removeBookmark = async item => {
-    let eveBook = await AsyncStorage.getItem('EveBook');
-    let newEveBook = JSON.parse(eveBook).bookmark.filter(ele => {
-      return ele.id != item.id
-    });
-    let bookmark = {
-      bookmark: newEveBook
-    };
-    await AsyncStorage.setItem('EveBook', JSON.stringify(bookmark));
   }
   
   renderCondition() {
@@ -196,5 +174,7 @@ const mapStateToProp = state => ({
 
 export default connect(mapStateToProp, {
   getEvents,
-  getMoreEvents
+  getMoreEvents,
+  addBookmark,
+  removeBookmark
 })(EventScreen);
