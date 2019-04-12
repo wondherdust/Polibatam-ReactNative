@@ -674,12 +674,13 @@ export const addBookmark = (item, bookmarkType, listData) => async dispatch => {
   if (bookmark) {
     bookmark = JSON.parse(bookmark);
     bookmark.bookmark.push(item);
-    return AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
+    await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
+  } else {
+    bookmark = {
+      bookmark: [item]
+    };
+    await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
   }
-  bookmark = {
-    bookmark: [item]
-  };
-  await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
   const res = listData.map(res => {
     if (bookmark) {
       let isBookmark;
