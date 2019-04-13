@@ -49,6 +49,8 @@ import {
 } from './src/constants/style';
 import CreateAnnouncementScreen from './src/screens/Auth/CreateAnnouncementScreen';
 import CreateEventScreen from './src/screens/Auth/CreateEventScreen';
+import AnnouncementBookmarkScreen from './src/screens/Auth/AnnouncementBookmarkScreen';
+import EventBookmarkScreen from './src/screens/Auth/EventBookmarkScreen';
 
 export const localize = RNLocalize.getLocales()[0];
 
@@ -216,6 +218,18 @@ const ProfileStack = createStackNavigator({
     screen: CreateEventScreen,
     navigationOptions: () => ({
       headerTitle: i18n.t('createEvent')
+    })
+  },
+  AnnouncementBookmark: {
+    screen: AnnouncementBookmarkScreen,
+    navigationOptions: () => ({
+      headerTitle: 'Announcement Bookmark'
+    })
+  },
+  EventBookmark: {
+    screen: EventBookmarkScreen,
+    navigationOptions: () => ({
+      headerTitle: 'Event Bookmark'
     })
   }
 }, {
