@@ -149,6 +149,7 @@ class CreateAnnouncementScreen extends Component {
         <TouchableNativeFeedback onPress={this.onCreate.bind(this)}>
           {this.renderLoading()}
         </TouchableNativeFeedback>
+        <View style={{ height: 16 }} />
       </ScrollView>
     );
   }
