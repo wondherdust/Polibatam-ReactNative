@@ -89,7 +89,9 @@ i18n.use(initReactI18next)
           username: 'Username',
           password: 'Password',
           emptyAnn: 'No Announcement yet',
-          emptyEve: 'No Event yet'
+          emptyEve: 'No Event yet',
+          announcementsBookmark: 'Announcements Bookmark',
+          eventsBookmark: 'Events Bookmark'
         }
       },
       id: {
@@ -124,7 +126,9 @@ i18n.use(initReactI18next)
           username: 'Nama Pengguna',
           password: 'Kata Sandi',
           emptyAnn: 'Belum ada pengumuman',
-          emptyEve: 'Belum ada acara'
+          emptyEve: 'Belum ada acara',
+          announcementsBookmark: 'Announcements Bookmark',
+          eventsBookmark: 'Events Bookmark'
         }
       }
     },
@@ -223,13 +227,13 @@ const ProfileStack = createStackNavigator({
   AnnouncementBookmark: {
     screen: AnnouncementBookmarkScreen,
     navigationOptions: () => ({
-      headerTitle: 'Announcement Bookmark'
+      headerTitle: i18n.t('announcementsBookmark')
     })
   },
   EventBookmark: {
     screen: EventBookmarkScreen,
     navigationOptions: () => ({
-      headerTitle: 'Event Bookmark'
+      headerTitle: i18n.t('eventsBookmark')
     })
   }
 }, {

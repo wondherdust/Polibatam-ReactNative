@@ -86,7 +86,7 @@ class ProfileScreen extends Component {
                 color={primaryColor}
                 onPress={() => { this.props.navigation.navigate('Setting'); }}
               />
-              <Text style={{ margin: 16, fontSize: 16 }}>Announcements Bookmark</Text>
+              <Text style={{ margin: 16, fontSize: 16 }}>{i18n.t('announcementsBookmark')}</Text>
             </View>
           </TouchableNativeFeedback>
           <TouchableNativeFeedback onPress={() => this.props.navigation.navigate('EventBookmark')}>
@@ -98,7 +98,7 @@ class ProfileScreen extends Component {
                 color={primaryColor}
                 onPress={() => { this.props.navigation.navigate('Setting'); }}
               />
-              <Text style={{ margin: 16, fontSize: 16 }}>Events Bookmark</Text>
+              <Text style={{ margin: 16, fontSize: 16 }}>{i18n.t('eventsBookmark')}</Text>
             </View>
           </TouchableNativeFeedback>
         </View>
