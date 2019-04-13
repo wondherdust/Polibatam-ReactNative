@@ -228,7 +228,7 @@ const loginUnsuccess = async dispatch => {
 };
 
 export const getAnnouncements = (jurusan) => async dispatch => {
-  let AnnBookmark = await AsyncStorage.getItem('AnnBook');
+  const AnnBookmark = await AsyncStorage.getItem('AnnBook');
   dispatch({
     type: LOADING_ANNOUNCEMENTS
   });
@@ -244,23 +244,21 @@ export const getAnnouncements = (jurusan) => async dispatch => {
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
-      const res = JSON.parse(response).map(res => {
+      const res = JSON.parse(response).map(mappedResult => {
         if (AnnBookmark) {
           let isBookmark;
-          let e = JSON.parse(AnnBookmark).bookmark.find(el => {
-            return el.id === res.id;
-          });
+          const e = JSON.parse(AnnBookmark).bookmark.find(el => el.id === mappedResult.id);
           if (e) {
             isBookmark = true;
           }
           return {
-            ...res,
+            ...mappedResult,
             isBookmark
-          }
+          };
         }
         return {
-          ...res
-        }
+          ...mappedResult
+        };
       });
       dispatch({
         type: GET_ANNOUNCEMENTS,
@@ -359,7 +357,7 @@ export const clearAnnouncement = () => ({
 });
 
 export const getEvents = () => async dispatch => {
-  let EveBookmark = await AsyncStorage.getItem('EveBook');
+  const EveBookmark = await AsyncStorage.getItem('EveBook');
   dispatch({
     type: LOADING_EVENTS
   });
@@ -375,23 +373,21 @@ export const getEvents = () => async dispatch => {
     .then(result => {
       clearTimeout(timeout);
       const response = result._bodyText;
-      const res = JSON.parse(response).map(res => {
+      const res = JSON.parse(response).map(mappedResult => {
         if (EveBookmark) {
           let isBookmark;
-          let e = JSON.parse(EveBookmark).bookmark.find(el => {
-            return el.id === res.id;
-          });
+          const e = JSON.parse(EveBookmark).bookmark.find(el => el.id === mappedResult.id);
           if (e) {
             isBookmark = true;
           }
           return {
-            ...res,
+            ...mappedResult,
             isBookmark
-          }
+          };
         }
         return {
-          ...res
-        }
+          ...mappedResult
+        };
       });
       dispatch({
         type: GET_EVENTS,
@@ -648,26 +644,26 @@ export const getUserData = data => ({
 });
 
 export const getAnnouncementBookmark = () => async dispatch => {
-  let bookmark = await AsyncStorage.getItem('AnnBook', (err, res) => {
+  await AsyncStorage.getItem('AnnBook', (err, res) => {
     if (res) {
       return dispatch({
         type: ANNOUNCEMENT_BOOKMARK,
         payload: JSON.parse(res)
-      })
+      });
     }
   });
-}
+};
 
 export const getEventBookmark = () => async dispatch => {
-  let bookmark = await AsyncStorage.getItem('EveBook', (err, res) => {
+  await AsyncStorage.getItem('EveBook', (err, res) => {
     if (res) {
       return dispatch({
         type: EVENT_BOOKMARK,
         payload: JSON.parse(res)
-      })
+      });
     }
   });
-}
+};
 
 export const addBookmark = (item, bookmarkType, listData) => async dispatch => {
   let bookmark = await AsyncStorage.getItem(bookmarkType);
@@ -681,23 +677,21 @@ export const addBookmark = (item, bookmarkType, listData) => async dispatch => {
     };
     await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
   }
-  const res = listData.map(res => {
+  const res = listData.map(mappedResult => {
     if (bookmark) {
       let isBookmark;
-      let e = bookmark.bookmark.find(el => {
-        return el.id === res.id;
-      });
+      const e = bookmark.bookmark.find(el => el.id === mappedResult.id);
       if (e) {
         isBookmark = true;
       }
       return {
-        ...res,
+        ...mappedResult,
         isBookmark
-      }
+      };
     }
     return {
-      ...res
-    }
+      ...mappedResult
+    };
   });
   if (bookmarkType === 'AnnBook') {
     return dispatch({
@@ -709,34 +703,30 @@ export const addBookmark = (item, bookmarkType, listData) => async dispatch => {
     type: GET_EVENTS,
     payload: res
   });
-}
+};
 
 export const removeBookmark = (item, bookmarkType, listData) => async dispatch => {
-  let initBookmark = await AsyncStorage.getItem(bookmarkType);
-  let newBookmark = JSON.parse(initBookmark).bookmark.filter(ele => {
-    return ele.id != item.id
-  });
-  let bookmark = {
+  const initBookmark = await AsyncStorage.getItem(bookmarkType);
+  const newBookmark = JSON.parse(initBookmark).bookmark.filter(ele => ele.id !== item.id);
+  const bookmark = {
     bookmark: newBookmark
   };
   await AsyncStorage.setItem(bookmarkType, JSON.stringify(bookmark));
-  const res = listData.map(res => {
+  const res = listData.map(mappedResult => {
     if (bookmark) {
       let isBookmark;
-      let e = bookmark.bookmark.find(el => {
-        return el.id === res.id;
-      });
+      const e = bookmark.bookmark.find(el => el.id === mappedResult.id);
       if (e) {
         isBookmark = true;
       }
       return {
-        ...res,
+        ...mappedResult,
         isBookmark
-      }
+      };
     }
     return {
-      ...res
-    }
+      ...mappedResult
+    };
   });
   if (bookmarkType === 'AnnBook') {
     return dispatch({
@@ -748,4 +738,4 @@ export const removeBookmark = (item, bookmarkType, listData) => async dispatch =
     type: GET_EVENTS,
     payload: res
   });
-}
+};
