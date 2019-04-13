@@ -77,7 +77,7 @@ class ProfileScreen extends Component {
           </View>
         </View>
         <View style={{ margin: 16 }}>
-          <TouchableNativeFeedback onPress={() => console.log('go to bookmark screen')}>
+          <TouchableNativeFeedback onPress={() => this.props.navigation.navigate('AnnouncementBookmark')}>
             <View style={{ flexDirection: 'row' }}>
               <IconFa
                 style={{ marginTop: 16 }}
@@ -89,7 +89,7 @@ class ProfileScreen extends Component {
               <Text style={{ margin: 16, fontSize: 16 }}>Announcements Bookmark</Text>
             </View>
           </TouchableNativeFeedback>
-          <TouchableNativeFeedback onPress={() => console.log('go to bookmark screen')}>
+          <TouchableNativeFeedback onPress={() => this.props.navigation.navigate('EventBookmark')}>
             <View style={{ flexDirection: 'row' }}>
               <IconFa
                 style={{ marginTop: 16 }}
