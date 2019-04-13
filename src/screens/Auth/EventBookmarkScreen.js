@@ -33,6 +33,12 @@ class EventBookmarkScreen extends Component {
     });
   }
 
+  goToDetail = (id) => {
+    this.props.navigation.navigate('EventDetail', {
+      id
+    });
+  }
+
   renderItem = item => {
     const {
       id,
