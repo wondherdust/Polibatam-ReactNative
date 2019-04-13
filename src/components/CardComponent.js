@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import {
   View,
-  TouchableNativeFeedback
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import {
@@ -13,11 +13,11 @@ import {
 class CardComponent extends Component {
   render() {
     return (
-      <TouchableNativeFeedback style={this.props.style} onPress={this.props.onPress}>
+      <TouchableWithoutFeedback style={this.props.style} onPress={this.props.onPress}>
         <View style={styles.card}>
           {this.props.children}
         </View>
-      </TouchableNativeFeedback>
+      </TouchableWithoutFeedback>
     );
   }
 }
