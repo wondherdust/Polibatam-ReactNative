@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable no-confusing-arrow */
 import React, {
   Component
 } from 'react';
@@ -9,13 +11,13 @@ import {
   FlatList,
   RefreshControl,
   TouchableWithoutFeedback,
-  TouchableNativeFeedback,
-  AsyncStorage
+  TouchableNativeFeedback
 } from 'react-native';
 import {
   connect
 } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import i18n from 'i18next';
 
 import {
   getEvents,

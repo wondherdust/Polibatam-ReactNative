@@ -1,3 +1,4 @@
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable camelcase */
 import React, {
@@ -28,7 +29,6 @@ import {
   getMoreAnnouncements,
   getEvents,
   api,
-  clearEventCreate,
   addBookmark,
   removeBookmark
 } from '../../redux/actions/index';
