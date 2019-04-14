@@ -72,11 +72,11 @@ class CreateEventScreen extends Component {
   }
 
   choosePicture = () => {
-    ImagePicker.showImagePicker({
+    ImagePicker.launchImageLibrary({
       title: 'Choose Poster',
       storageOptions: {
         skipBackup: true,
-        path: 'images'
+        path: 'Polibatam'
       },
       mediaType: 'photo',
       noData: true
