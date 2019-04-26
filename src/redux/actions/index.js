@@ -200,7 +200,7 @@ export const loginAction = ({
   }
 };
 
-export const saveToken = async token => {
+const saveToken = async token => {
   await AsyncStorage.setItem('Token', token);
 };
 
