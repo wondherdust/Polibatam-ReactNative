@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import {
   Text,
-  Image,
+  Dimensions,
   ScrollView,
   View,
   RefreshControl,
@@ -14,6 +14,7 @@ import {
   connect
 } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Image from 'react-native-scalable-image';
 
 import {
   getEvent,
@@ -83,7 +84,10 @@ class EventDetailScreen extends Component {
         }
       >
         <View style={styles.container}>
-          <Image resizeMode='center' source={{ uri: this.props.event.posterUrl, width: '100%', height: 500 }} />
+          <Image
+            width={Dimensions.get('screen').width - 16}
+            source={{ uri: this.props.event.posterUrl }}
+          />
           <Text style={styles.title}>{this.props.event.title}</Text>
           <Text>
               {this.props.creator.name},
