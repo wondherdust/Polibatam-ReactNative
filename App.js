@@ -11,6 +11,9 @@ import React, {
   Component
 } from 'react';
 import {
+  Text
+} from 'react-native';
+import {
   createStore,
   applyMiddleware
 } from 'redux';
@@ -256,7 +259,9 @@ const MaterialTopTabNavigator = createMaterialTopTabNavigator({
           color={tintColor}
         />
       ),
-      tabBarLabel: i18n.t('announcement')
+      tabBarLabel: ({ tintColor, focused }) => (
+        <Text style={{ color: tintColor, fontSize: focused ? 12 : 0 }}>{i18n.t('announcement')}</Text>
+      )
     })
   },
   EventTab: {
@@ -269,7 +274,9 @@ const MaterialTopTabNavigator = createMaterialTopTabNavigator({
           color={tintColor}
         />
       ),
-      tabBarLabel: i18n.t('event')
+      tabBarLabel: ({ tintColor, focused }) => (
+        <Text style={{ color: tintColor, fontSize: focused ? 12 : 0 }}>{i18n.t('event')}</Text>
+      )
     })
   },
   ProfileTab: {
@@ -282,7 +289,9 @@ const MaterialTopTabNavigator = createMaterialTopTabNavigator({
           color={tintColor}
         />
       ),
-      tabBarLabel: i18n.t('profileLabel')
+      tabBarLabel: ({ tintColor, focused }) => (
+        <Text style={{ color: tintColor, fontSize: focused ? 12 : 0 }}>{i18n.t('profileLabel')}</Text>
+      )
     })
   }
 }, {
