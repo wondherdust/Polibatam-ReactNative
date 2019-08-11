@@ -25,7 +25,7 @@ class ProfileScreen extends Component {
 
   renderFab() {
     if (this.props.fab) {
-      if (this.props.userData.level === 'admin') {
+      if (this.props.userData.level === 'Admin') {
         return (
           <ActionButton buttonColor={primaryColor}>
             <ActionButton.Item size={48} buttonColor='#9b59b6' title={i18n.t('announcement')} onPress={() => this.props.navigation.navigate('CreateAnnouncement')}>
