@@ -59,8 +59,8 @@ import {
 } from '../../../App';
 
 const FETCH_TIMEOUT = 30000;
-// export const api = 'http://192.168.43.197:3000/api';
-export const api = 'https://polibatam-api.herokuapp.com/api';
+// export const api = 'http://192.168.43.98:3000/api';
+export const api = 'https://polibatam.herokuapp.com/api';
 
 export const formChange = (text, field) => dispatch => {
   switch (field) {
