@@ -32,7 +32,7 @@ class AuthLoadingScreen extends Component {
         username,
         level
       } = item;
-      if (level === 'admin' || level === 'organisasi') {
+      if (level === 'Admin' || level === 'organisasi') {
         this.props.showFab();
       }
       this.props.getUserData(item);
